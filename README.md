@@ -1,59 +1,90 @@
 # agrotec-sustentavel
 Projeto Agrinho 2026 - Agro forte, futuro sustentável.
-import datetime
+class Fazenda:
+    def __init__(self, nome, cultura, area, agua_utilizada):
+        self.nome = nome
+        self.cultura = cultura
+        self.area = area
+        self.agua_utilizada = agua_utilizada
 
-# Banco de dados simulado
-culturas = []
+    def indice_sustentabilidade(self):
+        consumo_por_hectare = self.agua_utilizada / self.area
 
-# Função para cadastrar uma nova plantação
-def cadastrar_plantacao():
-    nome = input("Nome da cultura: ")
+        if consumo_por_hectare <= 1000:
+            return "Excelente"
+        elif consumo_por_hectare <= 2000:
+            return "Bom"
+        else:
+            return "Necessita Melhorias"
+
+    def exibir_relatorio(self):
+        print("\n===== RELATÓRIO DA FAZENDA =====")
+        print(f"Propriedade: {self.nome}")
+        print(f"Cultura: {self.cultura}")
+        print(f"Área Plantada: {self.area} ha")
+        print(f"Consumo de Água: {self.agua_utilizada} litros")
+        print(f"Sustentabilidade: {self.indice_sustentabilidade()}")
+        print("================================")
+
+
+fazendas = []
+
+def cadastrar_fazenda():
+    print("\n--- Cadastro de Fazenda ---")
+
+    nome = input("Nome da propriedade: ")
+    cultura = input("Cultura principal: ")
     area = float(input("Área plantada (ha): "))
-    irrigacao = input("Tipo de irrigação (gotejamento/sprinkler/nenhuma): ")
-    fertilizante = input("Fertilizante utilizado (orgânico/químico/nenhum): ")
-    data_plantio = input("Data de plantio (AAAA-MM-DD): ")
-    
-    plantacao = {
-        "nome": nome,
-        "area": area,
-        "irrigacao": irrigacao,
-        "fertilizante": fertilizante,
-        "data_plantio": datetime.datetime.strptime(data_plantio, "%Y-%m-%d")
-    }
-    
-    culturas.append(plantacao)
-    print(f"Cultura {nome} cadastrada com sucesso!\n")
+    agua = float(input("Consumo de água (litros): "))
 
-# Função para gerar relatório sustentável
-def relatorio_sustentavel():
-    print("\n--- Relatório Sustentável ---")
-    total_area = sum(c["area"] for c in culturas)
-    org_fertil = sum(1 for c in culturas if c["fertilizante"] == "orgânico")
-    
-    print(f"Total de áreas cultivadas: {total_area:.2f} ha")
-    print(f"Número de culturas com fertilizante orgânico: {org_fertil}")
-    
-    for c in culturas:
-        print(f"{c['nome']} - Irrigação: {c['irrigacao']} - Fertilizante: {c['fertilizante']}")
+    fazenda = Fazenda(nome, cultura, area, agua)
+    fazendas.append(fazenda)
 
-# Função principal
+    print("Cadastro realizado com sucesso!")
+
+def listar_fazendas():
+    if not fazendas:
+        print("\nNenhuma fazenda cadastrada.")
+        return
+
+    for fazenda in fazendas:
+        fazenda.exibir_relatorio()
+
+def dicas_sustentaveis():
+    print("\n===== DICAS SUSTENTÁVEIS =====")
+    print("✓ Utilizar irrigação por gotejamento")
+    print("✓ Fazer rotação de culturas")
+    print("✓ Aproveitar água da chuva")
+    print("✓ Utilizar adubação orgânica")
+    print("✓ Preservar áreas de mata nativa")
+    print("=============================")
+
 def menu():
     while True:
-        print("\n--- Agro Forte: Futuro Sustentável ---")
-        print("1. Cadastrar plantação")
-        print("2. Gerar relatório sustentável")
-        print("3. Sair")
+        print("\n")
+        print("🌱 AGRO FORTE - FUTURO SUSTENTÁVEL")
+        print("1 - Cadastrar Fazenda")
+        print("2 - Ver Relatórios")
+        print("3 - Dicas Sustentáveis")
+        print("4 - Sair")
+
         opcao = input("Escolha uma opção: ")
-        
+
         if opcao == "1":
-            cadastrar_plantacao()
+            cadastrar_fazenda()
+
         elif opcao == "2":
-            relatorio_sustentavel()
+            listar_fazendas()
+
         elif opcao == "3":
-            print("Saindo do sistema...")
+            dicas_sustentaveis()
+
+        elif opcao == "4":
+            print("Encerrando sistema...")
             break
+
         else:
-            print("Opção inválida! Tente novamente.")
+            print("Opção inválida!")
 
 if __name__ == "__main__":
     menu()
